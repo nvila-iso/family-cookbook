@@ -9,7 +9,7 @@ const Nav = () => {
         </Link>
 
         <div className="flex items-center gap-5 font-semibold text-lg">
-          <Link to="" className="italic hover:not-italic transition">
+          <Link to="" className="hover:italic transition">
             login
           </Link>
           <Link
