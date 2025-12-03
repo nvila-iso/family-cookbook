@@ -19,8 +19,13 @@ const Login = () => {
     const credentials = { email, password };
 
     try {
-      await login(credentials);
-      navigate("/family_cookbook");
+      const data = await login(credentials);
+
+      if (!data.user.firstName || !data.user.lastName || !data.user.username) {
+        navigate("/setup");
+      } else {
+        navigate("/family_cookbook");
+      }
     } catch (error) {
       setError(error.message);
     }

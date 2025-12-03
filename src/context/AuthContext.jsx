@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const decoded = jwtDecode(newToken);
       setUser(decoded);
-
+      
       // currently off -- autotimer for logout
       // const now = Date.now() / 1000;
       // const timeout = (decoded.exp - now) * 1000;
@@ -69,6 +69,7 @@ export const AuthProvider = ({ children }) => {
 
       const data = await res.json();
       saveToken(data.token);
+      setUser(data.user);
       return data;
     } catch (error) {
       console.error(error.message);

@@ -7,6 +7,7 @@ import Browse from "./pages/Browse";
 import FamilyCookbook from "./pages/FamilyCookbook";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import Setup from "./pages/user/profile/Setup";
 
 const routes = [
   {
@@ -24,6 +25,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <FamilyCookbook />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/setup",
+        element: (
+          <ProtectedRoute>
+            <Setup />
           </ProtectedRoute>
         ),
       },
