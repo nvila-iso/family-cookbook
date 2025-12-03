@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "./layouts/RootLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home";
 import Browse from "./pages/Browse";
@@ -16,7 +17,16 @@ const routes = [
       { path: "login", Component: Login },
       { path: "register", Component: Register },
       { path: "browse", Component: Browse },
-      { path: "/family_cookbook", Component: FamilyCookbook },
+
+      // PROTECTED PAGES
+      {
+        path: "/family_cookbook",
+        element: (
+          <ProtectedRoute>
+            <FamilyCookbook />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ];

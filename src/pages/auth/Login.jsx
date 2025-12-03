@@ -89,7 +89,7 @@ const Login = () => {
                 </div> */}
               </div>
 
-              <Link to="" className="text-xs italic mb-3 self-end">
+              <Link to="" className="text-xs italic mb-3 self-end underline">
                 forgot password?
               </Link>
               <button
@@ -99,7 +99,7 @@ const Login = () => {
                 Log in
               </button>
               <div className="flex justify-between">
-                <Link to="/register" className="text-xs italic">
+                <Link to="/register" className="text-xs italic underline">
                   create account
                 </Link>
               </div>
