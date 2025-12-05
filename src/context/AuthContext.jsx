@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -10,28 +9,11 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState();
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const saveToken = (newToken) => {
     setToken(newToken);
     sessionStorage.setItem("token", newToken);
-
-    try {
-      const decoded = jwtDecode(newToken);
-      setUser(decoded);
-      
-      // currently off -- autotimer for logout
-      // const now = Date.now() / 1000;
-      // const timeout = (decoded.exp - now) * 1000;
-
-      // if (timeout > 0) {
-      //   setTimeout(() => logout(), timeout);
-      // } else {
-      //   logout();
-      // }
-    } catch (error) {
-      console.error("Failed to decode token:", error);
-      logout();
-    }
   };
 
   const register = async (registration) => {
@@ -68,8 +50,10 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await res.json();
+
       saveToken(data.token);
       setUser(data.user);
+      
       return data;
     } catch (error) {
       console.error(error.message);
@@ -89,13 +73,32 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("token");
-
-    if (storedToken) {
-      setToken(storedToken);
+    if (!storedToken) {
+      setLoading(false);
+      return;
     }
+
+    setToken(storedToken);
+
+    fetch("http://localhost:5000/api/users/profile", {
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data.user);
+        setLoading(false);
+      })
+      .catch(() => {
+        sessionStorage.removeItem("token");
+        setUser(null);
+        setToken(null);
+        setLoading(false);
+      });
   }, []);
 
-  const value = { token, login, user, logout, register };
+  const value = { token, login, user, logout, register, loading };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

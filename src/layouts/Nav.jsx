@@ -1,44 +1,43 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useAuth } from "../context/AuthContext";
+
+import CommonButton from "../components/commonUI/CommonButton";
 
 const Nav = () => {
   const { token, logout, user } = useAuth();
+
+  const location = useLocation();
+
+  console.log(location.pathname === "/setup");
 
   return (
     <>
       <div className="flex items-center justify-between px-5 py-1 border-b border-black/10">
         <Link to="/">
-          <img src="/logo.svg" alt="" />
+          <img src="/logo.svg" alt="" className="h-14 size-40" />
         </Link>
         {!token ? (
           <div className="flex items-center gap-5 font-semibold">
             <Link to="/login" className="hover:italic transition">
               login
             </Link>
-            <Link
-              to="/register"
-              className="bg-lime-600 px-3 py-1 rounded text-white shadow-md hover:shadow-sm hover:bg-lime-700 transition"
-            >
-              register
-            </Link>
+            <CommonButton label="register" adjustments="py-1" url="/register" />
           </div>
         ) : (
           <div className="flex items-center gap-5 font-semibold">
-            <Link
-              to="/login"
+            {!location.pathname === "/setup" && !user.family (
+              <CommonButton
+                label="+family"
+                variant="caution"
+                adjustments="py-1"
+              />
+            )}
+            <CommonButton
+              label="logoff"
+              adjustments="py-1"
               onClick={logout}
-              className="bg-black text-white px-3 py-1 rounded hover:bg-black/60 transition "
-            >
-              logoff
-            </Link>
-{/* 
-            {!user.firstName || !user.lastName || !user.username ? (
-              ""
-            ) : (
-              <div className="text-sm w-10 h-10 rounded-full bg-yellow-300 flex justify-center items-center hover:bg-yellow-400 transition">
-                <p></p>
-              </div>
-            )} */}
+              variant="secondary"
+            />
           </div>
         )}
       </div>
