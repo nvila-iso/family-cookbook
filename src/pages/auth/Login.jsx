@@ -27,7 +27,11 @@ const Login = () => {
         navigate("/family_cookbook");
       }
     } catch (error) {
-      setError(error.message);
+      if (error === `{"error":"User not found"}`) {
+        setError("User not found");
+      } else {
+        setError(error);
+      }
     }
   };
 
@@ -70,33 +74,16 @@ const Login = () => {
                     required
                   />
                 </fieldset>
-                {/* <div className="relative">
-                  <FaUserCircle className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-
-                  <input
-                    name="email"
-                    type="text"
-                    placeholder="email address"
-                    className="pl-10 border px-3 py-2 w-full rounded-full"
-                    required
-                  />
-                </div> */}
-                {/* <div className="relative">
-                  <FaUnlockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="password"
-                    className="pl-10 border px-3 py-2 w-full rounded-full"
-                    required
-                  />
-                </div> */}
+              </div>
+              <div className="w-full flex justify-between items-center text-xs mb-3">
+                <div>
+                  <p>{error}</p>
+                </div>
+                <Link to="" className="italic underline">
+                  forgot password?
+                </Link>
               </div>
 
-              <Link to="" className="text-xs italic mb-3 self-end underline">
-                forgot password?
-              </Link>
               <button
                 type="submit"
                 className="text-white text-sm font-semibold px-3 py-2 w-full rounded-full bg-lime-600 hover:bg-lime-700 transition"
